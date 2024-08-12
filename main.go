@@ -91,7 +91,8 @@ func commands() []cli.Command {
 					config.Originalpath = c.String("originalpath")
 				}
 				path := fmt.Sprintf(`%s/bin;%s;%s`, config.JavaHome, os.Getenv("PATH"), file.GetCurrentPath())
-				cmd = exec.Command("cmd", "/C", "setx", "path", path, "/m")
+				// cmd = exec.Command("cmd", "/C", "setx", "path", path, "/m")
+				cmd = exec.Command("cmd", "/C", "reg", "add", "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", "/f", "/v", "Path", "/t", "REG_SZ", "/d", path)
 				err = cmd.Run()
 				if err != nil {
 					return errors.New("set Environment variable `PATH` failure: Please run as admin user")
