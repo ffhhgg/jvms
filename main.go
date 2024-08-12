@@ -92,6 +92,7 @@ func commands() []cli.Command {
 				}
 				path := fmt.Sprintf(`%s/bin;%s;%s`, config.JavaHome, os.Getenv("PATH"), file.GetCurrentPath())
 				// cmd = exec.Command("cmd", "/C", "setx", "path", path, "/m")
+				fmt.Println("new `Path` Environment variable is ", path)
 				cmd = exec.Command("cmd", "/C", "reg", "add", "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", "/v", "Path", "/t", "REG_SZ", "/d", path, "/f")
 				err = cmd.Run()
 				if err != nil {
